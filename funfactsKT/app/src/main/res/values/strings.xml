@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FunFacts</string>
+    <string name="Log_on_create_main">We\'re logging from the onCreate method</string>
+    <string name="question_textview">Did you know?</string>
+    <string name="fact_textview">Ants stretch when they wake up in the morning</string>
+    <string name="text_button">Show Another Fun Fact</string>
+</resources>
