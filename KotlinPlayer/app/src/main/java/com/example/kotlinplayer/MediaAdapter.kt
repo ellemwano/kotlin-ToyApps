@@ -1,18 +1,16 @@
 package com.example.kotlinplayer
 
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.squareup.picasso.Picasso
 
 
 class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_media_item, parent, false)
+        val view = parent.inflate(R.layout.view_media_item)  // Function extension
         return ViewHolder(view)
     }
 
@@ -24,14 +22,15 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val title = view.findViewById<TextView>(R.id.media_title)
-        val image = view.findViewById<ImageView>(R.id.image)
+        // Reified functions
+        val title = view.find<TextView>(R.id.media_title) // Not much difference since API 26
+        val image = find<ImageView>(R.id.media_thumb)  // Using the ViewHolder function extension
 
         fun bind(item: MediaItem) {
             title.text = item.title
-            Picasso.get()
-                .load(item.thumbUrl)
-                .into(image)
+            image.loadUrl(item.thumbUrl)  // Extension function
+
+            toast("Hello")  // Extension function
         }
     }
 }
