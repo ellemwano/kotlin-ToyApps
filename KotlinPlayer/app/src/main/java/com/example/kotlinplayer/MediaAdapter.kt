@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.squareup.picasso.Picasso
 
-class MediaItem
 
 class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
@@ -21,8 +23,15 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
     override fun getItemCount(): Int = items.size
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(item: MediaItem) {
 
+        val title = view.findViewById<TextView>(R.id.media_title)
+        val image = view.findViewById<ImageView>(R.id.image)
+
+        fun bind(item: MediaItem) {
+            title.text = item.title
+            Picasso.get()
+                .load(item.thumbUrl)
+                .into(image)
         }
     }
 }
