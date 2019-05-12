@@ -3,8 +3,7 @@ package com.example.kotlinplayer
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import kotlinx.android.synthetic.main.view_media_item.view.*
 
 
 class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
@@ -22,15 +21,17 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val title = find<TextView>(R.id.media_title)
-        val image = find<ImageView>(R.id.media_thumb)
-        val videoIndicator = find<ImageView>(R.id.media_video_indicator)
+          // Using the Android Extension (if we want them cached into properties)
+//        val title = view.media_title
+//        val image = view.media_thumb
+//        val videoIndicator = view.media_video_indicator
 
+        // Using Android extensions
         fun bind(item: MediaItem) {
-            title.text = item.title
-            image.loadUrl(item.thumbUrl)
+            itemView.media_title.text = item.title
+            itemView.media_thumb.loadUrl(item.thumbUrl)
             // If video, we show the play video icon on top
-            videoIndicator.visibility = when(item.type) {
+            itemView.media_video_indicator.visibility = when(item.type) {
                 MediaItem.Type.VIDEO -> View.VISIBLE
                 MediaItem.Type.PHOTO -> View.GONE
             }
