@@ -11,9 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Extension function
-        toast("Hello")
-        toast("Hello", Toast.LENGTH_LONG)
     }
 }
 

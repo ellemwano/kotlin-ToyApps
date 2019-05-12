@@ -22,15 +22,18 @@ class MediaAdapter(val items: List<MediaItem>) : RecyclerView.Adapter<MediaAdapt
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        // Reified functions
-        val title = view.find<TextView>(R.id.media_title) // Not much difference since API 26
-        val image = find<ImageView>(R.id.media_thumb)  // Using the ViewHolder function extension
+        val title = find<TextView>(R.id.media_title)
+        val image = find<ImageView>(R.id.media_thumb)
+        val videoIndicator = find<ImageView>(R.id.media_video_indicator)
 
         fun bind(item: MediaItem) {
             title.text = item.title
-            image.loadUrl(item.thumbUrl)  // Extension function
-
-            toast("Hello")  // Extension function
+            image.loadUrl(item.thumbUrl)
+            // If video, we show the play video icon on top
+            videoIndicator.visibility = when(item.type) {
+                MediaItem.Type.VIDEO -> View.VISIBLE
+                MediaItem.Type.PHOTO -> View.GONE
+            }
         }
     }
 }
