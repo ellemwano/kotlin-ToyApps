@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recycler.adapter = MediaAdapter(emptyList())  // Empty list to compile
+        // Showing a toast with title on click (extension function for toast)
+        recycler.adapter = MediaAdapter(getMedia()) { mediaItem ->  toast(mediaItem.title) }
     }
 }
 
