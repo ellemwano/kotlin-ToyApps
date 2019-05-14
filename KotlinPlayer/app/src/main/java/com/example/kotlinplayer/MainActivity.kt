@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val adapter = MediaAdapter(getMedia()) { (title) -> toast(title) }
+    val adapter = MediaAdapter(MediaProvider.data) { (title) -> toast(title) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // let - Calls the specified function block with this value as its argument and returns its result.
-        adapter.items = getMedia().let {media ->
+        adapter.items = MediaProvider.data.let {media ->
             when (item.itemId) {
                 R.id.filter_all -> media
                 R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
