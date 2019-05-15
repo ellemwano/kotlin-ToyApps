@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 
 class MainActivity : AppCompatActivity() {
 
-    val adapter = MediaAdapter { (title) -> toast(title) }
+    val adapter = MediaAdapter { navigateToDetail(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
         MediaProvider.dataAsync { adapter.items = it }
-//        MediaProvider.dataAsync { data -> adapter.items = data }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -35,6 +35,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun navigateToDetail(item: MediaItem) {
+        // Using Anko
+        startActivity<DetailActivity>(DetailActivity.ID to item.id)
+//        startActivity<DetailActivity>(Pair(DetailActivity.ID, item.id))
+
     }
 }
 

@@ -2,6 +2,7 @@ package com.example.kotlinplayer
 
 
 data class MediaItem (
+    val id: Int,
     val title: String,
     val thumbUrl: String,
     val type: Type) {
