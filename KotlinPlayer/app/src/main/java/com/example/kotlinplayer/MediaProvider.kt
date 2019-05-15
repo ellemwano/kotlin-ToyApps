@@ -1,16 +1,29 @@
 package com.example.kotlinplayer
 
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+
 
 object MediaProvider {
 
     private val thumbBase = "http://lorempixel.com/400/400/cats/"
 
-    // map - Returns a list containing the results of applying the given transform function to each element
-    // in the original collection.
-    val data = (1..10).map {
-        MediaItem("Title $it",
-            "$thumbBase$it",
-            if (it % 3 == 0) MediaItem.Type.VIDEO else MediaItem.Type.PHOTO)
+    private var data = emptyList<MediaItem>()
+
+    fun dataAsync(callback: (List<MediaItem>) -> Unit) {
+        doAsync {
+            if (data.isEmpty()) {
+                Thread.sleep(2000)
+                data = (1..10).map {
+                    MediaItem("Title $it",
+                        "$thumbBase$it",
+                        if (it % 3 == 0) MediaItem.Type.VIDEO else MediaItem.Type.PHOTO)
+                }
+            }
+            uiThread {
+                callback(data)
+            }
+        }
     }
 }
 
