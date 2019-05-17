@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.startActivity
 
 
@@ -37,12 +39,38 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    /*
+      With coroutines
+     */
     private fun loadFilterData(filter: Filter) {
-        MediaProvider.dataAsync {  media ->
-            adapter.items = when (filter) {
-                Filter.None -> media
-                is Filter.ByType -> media.filter { it.type == filter.type }
-            }
+
+        // Create coroutine
+        GlobalScope.launch {
+            val media1 = MediaProvider.dataSync("cats")
+            val media2 = MediaProvider.dataSync("nature")
+            updateData(media1 + media2, filter)
+        }
+    }
+
+    /*
+      Without coroutines
+     */
+//    private fun loadFilterData(filter: Filter) {
+//        MediaProvider.dataAsync("cats") {  media1 ->
+//
+//            MediaProvider.dataAsync("nature") { media2 ->
+//
+//                // Update data
+//                updateData(media1 + media2, filter)
+//                }
+//            }
+//        }
+//    }
+
+    private fun updateData(media: List<MediaItem>, filter: Filter = Filter.None ) {
+        adapter.items = when(filter) {
+            Filter.None -> media
+            is Filter.ByType -> media.filter { it.type == filter.type }
         }
     }
 
