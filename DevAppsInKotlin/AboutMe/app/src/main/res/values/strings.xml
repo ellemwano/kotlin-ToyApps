@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AboutMe</string>
+    <string name="name">Arabian Mau</string>
+    <string name="yellow_star">Yellow star</string>
+    <string name="bio">The Arabian Mau is a formal breed of domestic cat, originated from the desert cat, a short-haired
+        landrace native to the desert of the Arabian Peninsula. It lives in the streets and deserts of the Arabian
+        Peninsula and has adapted very well to its extreme climate. The Arabian Mau is recognized as a formal breed by
+        few fancier and breeder organization and cat registry, World Cat Federation (WCF) and Emirates Feline Federation
+        (EFF). Based on one landrace, the Arabian Mau is a natural breed.
+        \n\nIt is medium in size, with a body structure that is rather large and firm, not particularly slender, and
+        with well-developed musculature. The legs are comparatively long, with oval paws.
+        \n\nThe head appears round but is slightly longer than broad. The nose is slightly concave curved when viewed
+        in profile. The whisker pads are clearly pronounced, with a slight pinch. The chin is very firm. The eyes are
+        slightly oval, large and slightly slanted. The cat may have any normal cat eye color. There is no relation
+        between the eye and coat colors. Usually, Arabian Maus have bright green eyes. The ears are large, slightly
+        forward and sideward-placed, a little long, and high-set on the skull.
+        \n\nThe tail is generally of medium length and tapers slightly towards the tip.
+        \n\nThe coat is short and lies close to the body. It has no undercoat and is firm to touch. It may not be silky
+        but is noticeably very glossy.</string>
+    <string name="what_is_your_nickname">What is your Nickname?</string>
+    <string name="done">Done</string>
+</resources>
