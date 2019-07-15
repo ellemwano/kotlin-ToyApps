@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
 
 
@@ -49,20 +46,14 @@ class MainActivity : AppCompatActivity() {
         // Create coroutine
         // Dispatchers.Main - Running on main thread
         GlobalScope.launch(Dispatchers.Main) {
-            // Suspend function calls - Running on background thread
-            val media1 = withContext(Dispatchers.IO) { MediaProvider.dataSync("cats") }
-            val media2 = withContext(Dispatchers.IO) { MediaProvider.dataSync("nature") }
-//            // With the suspending function
-//            val media1 = getData("cat")
-//            val media2 = getData("nature")
-            updateData(media1 + media2, filter)
+            // Using async() instead of withContext()
+            val media1 = async(Dispatchers.IO) { MediaProvider.dataSync("cats") }
+            // Starts the coroutine lazily (when needed) to wait until await() is called
+//            val media1 = async(Dispatchers.IO,CoroutineStart.LAZY) { MediaProvider.dataSync("cats") }
+            val media2 = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
+            updateData(media1.await() + media2.await(), filter)
         }
     }
-
-//    // Refactor using a suspending function
-//    private suspend fun getData(type: String): List <MediaItem> = withContext(Dispatchers.IO){
-//        MediaProvider.dataSync(type)
-//    }
 
     /*
       Without coroutines

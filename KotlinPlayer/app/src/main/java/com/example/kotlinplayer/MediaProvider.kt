@@ -6,7 +6,7 @@ import org.jetbrains.anko.uiThread
 
 object MediaProvider {
 
-    private val thumbBase = "http://lorempixel.com/400/400//"
+    private val thumbBase = "http://lorempixel.com/400/400/"
 
     private var data = emptyList<MediaItem>()
 
