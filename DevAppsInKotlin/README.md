@@ -4,3 +4,4 @@ _Set of apps from the [Developing Android Apps with Kotlin](https://eu.udacity.c
 - __AboutMe__ - Single screen app, displaying name, nickname and bio - _DataBinding, ScrollView, EditText_
 - __ColourMyView__ - Single screen app. Tap on the screen or buttons to change the boxes' colours - _ConstraintLayout_
 - __AndroidTrivia__ - Multi-screen quiz app - _Navigation Component, Navigation Drawer, Menu, Safe Args, Sharing Intent, Animations_
+- __DessertPusher__ - Tap on dessert to increase count and revenue - _Activity and Fragment lifecycle, Lifecycle Library, Timber, OnSaveInstanceState_
