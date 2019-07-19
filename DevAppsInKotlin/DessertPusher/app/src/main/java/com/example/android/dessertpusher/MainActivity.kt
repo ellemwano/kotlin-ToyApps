@@ -30,6 +30,7 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
+/** onSaveInstanceState Bundle Keys **/
 const val KEY_REVENUE = "key_revenue"
 const val KEY_DESSERT_SOLD = "key_dessert_sold"
 const val KEY_TIMER_SECONDS = "key_timer_seconds"
@@ -84,9 +85,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         // Setup DessertTimer, passing in the lifecycle
         dessertTimer = DessertTimer(this.lifecycle)
 
-        // DONE (03) Check here if the Bundle savedInstanceState is null. If it isn't, get the
-        // three values you saved and restore them: revenue, desserts sold and the timer's
-        // seconds count. Also make sure to show the correct image resource.
+        // If there is a savedInstanceState bundle, then you're "restarting" the activity
+        // If there isn't a bundle, then it's a "fresh" start
         if (savedInstanceState != null) {
             revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
             dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
@@ -169,10 +169,9 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         return super.onOptionsItemSelected(item)
     }
 
-    // DONE (01) Add lifecycle callback methods for onSaveInstanceState and onRestoreInstanceState
-    // DONE (02) In onSaveInstanceState, put the revenue, dessertsSold and
-    // dessertTimer.secondsCount in the state Bundle
-
+    /**
+     * Called when the user navigates away from the app but might come back
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(KEY_REVENUE, revenue)
