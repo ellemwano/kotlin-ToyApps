@@ -16,6 +16,7 @@
 
 package com.example.android.dessertpusher
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.os.Bundle
 import android.util.Log
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
     private var dessertsSold = 0
+    private lateinit var dessertTimer: DessertTimer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -74,6 +76,9 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         binding.dessertButton.setOnClickListener {
             onDessertClicked()
         }
+
+        // DONE (02) Create a DessertTimer
+        dessertTimer = DessertTimer()
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -150,14 +155,17 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Lifecycle Methods
+     */
+    // DONE (03) Start the DessertTimer in onStart and stop the timer in onStop
+
     override fun onStart() {
         super.onStart()
+        dessertTimer.startTimer()
         Timber.i("onStart called")
 
     }
-
-    // DONE (05) Here, override the rest of the lifecycle methods and use Timber to print
-    // log statements. Don't forget to update the log statement in onCreate!
 
     override fun onResume() {
         super.onResume()
@@ -171,6 +179,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStop() {
         super.onStop()
+        dessertTimer.stopTimer()
         Timber.i("onStop called")
     }
 
