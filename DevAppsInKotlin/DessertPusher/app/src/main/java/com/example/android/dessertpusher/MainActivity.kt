@@ -30,6 +30,10 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
+const val KEY_REVENUE = "key_revenue"
+const val KEY_DESSERT_SOLD = "key_dessert_sold"
+const val KEY_TIMER_SECONDS = "key_timer_seconds"
+
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
@@ -77,9 +81,18 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
-        // Setup DessertTimer
-        // DONE (04) Pass in 'this' MainActivity's lifecycle so that it is observed
+        // Setup DessertTimer, passing in the lifecycle
         dessertTimer = DessertTimer(this.lifecycle)
+
+        // DONE (03) Check here if the Bundle savedInstanceState is null. If it isn't, get the
+        // three values you saved and restore them: revenue, desserts sold and the timer's
+        // seconds count. Also make sure to show the correct image resource.
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
+            dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
+            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
+            showCurrentDessert()
+        }
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -156,10 +169,26 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         return super.onOptionsItemSelected(item)
     }
 
+    // DONE (01) Add lifecycle callback methods for onSaveInstanceState and onRestoreInstanceState
+    // DONE (02) In onSaveInstanceState, put the revenue, dessertsSold and
+    // dessertTimer.secondsCount in the state Bundle
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_REVENUE, revenue)
+        outState.putInt(KEY_DESSERT_SOLD, dessertsSold)
+        outState.putInt(KEY_TIMER_SECONDS, dessertTimer.secondsCount)
+        Timber.i("onSaveInstanceState called")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Timber.i("onRestoreInstanceState Called")
+    }
+
     /**
      * Lifecycle Methods
      */
-    // DONE (05) Remove the calls to startTimer and stopTimer here; you shouldn't need them anymore!
     override fun onStart() {
         super.onStart()
         Timber.i("onStart called")
