@@ -11,3 +11,4 @@ This app demonstrates the following views and techniques:
 * In the Layout Editor: Creating chains, aligning objects, using baseline alignment for labels
 
 ## Screenshots
+![Screenshot1](screenshots/ColorMyViewsScreenshots.png)
