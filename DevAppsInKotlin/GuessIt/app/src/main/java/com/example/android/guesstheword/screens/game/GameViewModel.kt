@@ -16,6 +16,7 @@
 
 package com.example.android.guesstheword.screens.game
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -24,24 +25,31 @@ import androidx.lifecycle.ViewModel
  */
 class GameViewModel : ViewModel() {
 
-    // DONE (01) Wrap word and score in MutableLiveData
-    // DONE (02) Change references to score and word to score.value and word.value and add the
-    // require null safety checks
+    // DONE (01) Make an internal and external version of the word and score
+    // The internal version should be a MutableLiveData, have an underscore in front of its' name
+    // and be private
+    // The external version should be a LiveData
+    // DONE (02) Make a backing property for the external version that returns the internal
+    // MutableLiveData as a LiveData
 
     // The current word
-    val word = MutableLiveData<String>()
+    private val _word = MutableLiveData<String>()  // internal version
+    val word : LiveData<String>   // external version
+        get() = _word
 
     // The current score
-    val score = MutableLiveData<Int>()
+    private val _score = MutableLiveData<Int>()  // internal version
+    val score : LiveData<Int>   // external version
+        get() = _score
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
+    // DONE (03) Use the internal version (the MutableLiveData) of _score and _word in this class
     init {
         resetList()
         nextWord()
-        // DONE (03) Initialize score.value to 0
-        score.value = 0   // set value
+        _score.value = 0
     }
 
     /**
@@ -82,19 +90,19 @@ class GameViewModel : ViewModel() {
         if (wordList.isEmpty()) {
             // gameFinished()  // will be fixed later
         } else {
-            word.value = wordList.removeAt(0)
+            _word.value = wordList.removeAt(0)
         }
     }
 
     /** Methods for buttons presses **/
 
     fun onSkip() {
-        score.value = (score.value)?.minus(1)  // substracting 1 with null safety
+        _score.value = (score.value)?.minus(1)  // substracting 1 with null safety check
         nextWord()
     }
 
     fun onCorrect() {
-        score.value = (score.value)?.plus(1)  // adding 1 with null safety
+        _score.value = (score.value)?.plus(1)  // adding 1 with null safety check
         nextWord()
     }
 }
