@@ -16,7 +16,7 @@
 
 package com.example.android.guesstheword.screens.game
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
@@ -24,21 +24,24 @@ import androidx.lifecycle.ViewModel
  */
 class GameViewModel : ViewModel() {
 
+    // DONE (01) Wrap word and score in MutableLiveData
+    // DONE (02) Change references to score and word to score.value and word.value and add the
+    // require null safety checks
+
     // The current word
-    var word = ""
+    val word = MutableLiveData<String>()
 
     // The current score
-    var score = 0
+    val score = MutableLiveData<Int>()
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
-    // DONE (06) Once you've copied over the variables and methods, remove any code referring back
-    // to the GameFragment. You can also clean up the log statements from the last step.
-
     init {
         resetList()
         nextWord()
+        // DONE (03) Initialize score.value to 0
+        score.value = 0   // set value
     }
 
     /**
@@ -79,19 +82,19 @@ class GameViewModel : ViewModel() {
         if (wordList.isEmpty()) {
             // gameFinished()  // will be fixed later
         } else {
-            word = wordList.removeAt(0)
+            word.value = wordList.removeAt(0)
         }
     }
 
     /** Methods for buttons presses **/
 
     fun onSkip() {
-        score--
+        score.value = (score.value)?.minus(1)  // substracting 1 with null safety
         nextWord()
     }
 
     fun onCorrect() {
-        score++
+        score.value = (score.value)?.plus(1)  // adding 1 with null safety
         nextWord()
     }
 }

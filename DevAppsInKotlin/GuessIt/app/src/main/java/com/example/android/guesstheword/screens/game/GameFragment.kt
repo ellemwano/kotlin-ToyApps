@@ -17,12 +17,12 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.example.android.guesstheword.R
@@ -34,8 +34,6 @@ import com.example.android.guesstheword.databinding.GameFragmentBinding
 class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
-
-    // DONE (01) Move over the word, score and wordList variables to the GameViewModel
 
     private lateinit var binding: GameFragmentBinding
 
@@ -53,45 +51,42 @@ class GameFragment : Fragment() {
         // Get the viewmodel
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
-        // DONE (03) Move over this initialization to the GameViewModel
-
-        // DONE (04) Update these onClickListeners to refer to call methods in the ViewModel then
-        // update the UI
         binding.correctButton.setOnClickListener {
             viewModel.onCorrect()
-            updateScoreText()
-            updateWordText()
         }
         binding.skipButton.setOnClickListener {
             viewModel.onSkip()
-            updateScoreText()
-            updateWordText()
         }
-        updateScoreText()
-        updateWordText()
+
+        // DONE (04) Setup the LiveData observation relationship by getting the LiveData from your
+        // ViewModel and calling observe. Make sure to pass in *this* and then an Observer lambda
+        /**
+         * Setting up LiveData observation relationship
+         */
+
+        viewModel.word.observe(this, Observer { newWord ->
+            binding.wordText.text = newWord
+        })
+
+        viewModel.score.observe(this, Observer {newScore ->
+            binding.scoreText.text = newScore.toString()
+        })
+
         return binding.root
-
     }
-
-    // DONE (02) Move over methods resetList, nextWord, onSkip and onCorrect to the GameViewModel
 
     /**
      * Called when the game is finished
      */
     private fun gameFinished() {
-        val action = GameFragmentDirections.actionGameToScore(viewModel.score)
+        // DONE (06) Add a null safety check here - you can use the elvis operator to pass 0 if
+        // the LiveData is null
+        val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
         findNavController(this).navigate(action)
     }
 
     /** Methods for updating the UI **/
 
-    // DONE (05) Update these methods to get word and score from the viewmodel
-    private fun updateWordText() {
-        binding.wordText.text = viewModel.word
-
-    }
-
-    private fun updateScoreText() {
-        binding.scoreText.text = viewModel.score.toString()
-    }
+    // DONE (05) Move this code to update the UI up to your Observers; remove references to
+    // updateWordText and updateScoreText - you shouldn't need them!
 }
