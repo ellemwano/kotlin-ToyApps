@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -70,6 +71,18 @@ class GameFragment : Fragment() {
             binding.scoreText.text = newScore.toString()
         })
 
+        // DONE (04) Add an observer of eventGameFinish which, when eventGameFinish is true,
+        // performs the code in gameFinished()
+        // Make sure to call onGameFinishCompete to tell your viewmodel that the game finish event
+        // was dealt with
+        // Sets up event listening to navigate the player when the game is finished
+        viewModel.eventGameFinish.observe(this, Observer { isFinished ->
+            if (isFinished) {
+                gameFinished()
+                viewModel.onGameFinishComplete()
+            }
+        })
+
         return binding.root
     }
 
@@ -80,5 +93,6 @@ class GameFragment : Fragment() {
         // We add a null safety check , passing 0 if the LiveData is null
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
         findNavController(this).navigate(action)
+//        Toast.makeText(this.activity, "Game has finished", Toast.LENGTH_SHORT).show()
     }
 }

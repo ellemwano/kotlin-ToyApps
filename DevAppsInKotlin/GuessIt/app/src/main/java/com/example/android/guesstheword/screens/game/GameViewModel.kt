@@ -20,17 +20,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+
 /**
  * ViewModel containing all the logic needed to run the game
  */
 class GameViewModel : ViewModel() {
-
-    // DONE (01) Make an internal and external version of the word and score
-    // The internal version should be a MutableLiveData, have an underscore in front of its' name
-    // and be private
-    // The external version should be a LiveData
-    // DONE (02) Make a backing property for the external version that returns the internal
-    // MutableLiveData as a LiveData
 
     // The current word
     private val _word = MutableLiveData<String>()  // internal version
@@ -45,8 +39,15 @@ class GameViewModel : ViewModel() {
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
-    // DONE (03) Use the internal version (the MutableLiveData) of _score and _word in this class
+    // DONE (01) Make a properly encapsulated LiveData called eventGameFinish that holds a
+    // boolean
+    // Event which triggers the end of the game
+    private val _eventGameFinish = MutableLiveData<Boolean>()
+    val eventGameFinish: LiveData<Boolean>
+        get() = _eventGameFinish
+
     init {
+        _eventGameFinish.value = false
         resetList()
         nextWord()
         _score.value = 0
@@ -89,6 +90,8 @@ class GameViewModel : ViewModel() {
         //Select and remove a word from the list
         if (wordList.isEmpty()) {
             // gameFinished()  // will be fixed later
+            // DONE (03) Set eventGameFinish to true, to signify that the game is over
+            _eventGameFinish.value = true
         } else {
             _word.value = wordList.removeAt(0)
         }
@@ -104,5 +107,11 @@ class GameViewModel : ViewModel() {
     fun onCorrect() {
         _score.value = (score.value)?.plus(1)  // adding 1 with null safety check
         nextWord()
+    }
+
+    // DONE (02) Make the function onGameFinishComplete which makes the value of eventGameFinish
+    // false
+    fun onGameFinishComplete() {
+        _eventGameFinish.value = false  // event has been handled (navigation done)
     }
 }
