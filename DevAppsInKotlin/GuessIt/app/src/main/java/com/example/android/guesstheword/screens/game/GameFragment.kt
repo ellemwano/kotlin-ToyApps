@@ -17,6 +17,7 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,10 +72,12 @@ class GameFragment : Fragment() {
             binding.scoreText.text = newScore.toString()
         })
 
-        // DONE (04) Add an observer of eventGameFinish which, when eventGameFinish is true,
-        // performs the code in gameFinished()
-        // Make sure to call onGameFinishCompete to tell your viewmodel that the game finish event
-        // was dealt with
+        // DONE (07) Setup an observer relationship to update binding.timerText
+        // You can use DateUtils.formatElapsedTime to correctly format the long to a time string
+        viewModel.currentTime.observe(this, Observer { newTime ->
+            binding.timerText.text = DateUtils.formatElapsedTime(newTime)  // format Long to String
+        })
+
         // Sets up event listening to navigate the player when the game is finished
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
             if (isFinished) {
@@ -93,6 +96,5 @@ class GameFragment : Fragment() {
         // We add a null safety check , passing 0 if the LiveData is null
         val action = GameFragmentDirections.actionGameToScore(viewModel.score.value ?: 0)
         findNavController(this).navigate(action)
-//        Toast.makeText(this.activity, "Game has finished", Toast.LENGTH_SHORT).show()
     }
 }

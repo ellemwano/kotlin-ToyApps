@@ -16,6 +16,7 @@
 
 package com.example.android.guesstheword.screens.game
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,21 +27,40 @@ import androidx.lifecycle.ViewModel
  */
 class GameViewModel : ViewModel() {
 
+    // DONE (01) Copy over the provided companion object with the timer constants
+    companion object {
+        // These represent different important times
+        // This is when the game is over
+        const val DONE = 0L
+        // This is the number of milliseconds in a second
+        const val ONE_SECOND = 1000L
+        // This is the total time of the game
+        const val COUNTDOWN_TIME = 60000L
+    }
+
+    // DONE (02) Create a timer field of type CountDownTimer
+    private val timer: CountDownTimer
+
+    // DONE (03) Create a properly encapsulated LiveData for the current time called currentTime
+    // Its type should be Long
+    // The remaining time
+    private val _currentTime = MutableLiveData<Long>()
+    val currentTime: LiveData<Long>
+        get() = _currentTime
+
     // The current word
     private val _word = MutableLiveData<String>()  // internal version
-    val word : LiveData<String>   // external version
+    val word: LiveData<String>   // external version
         get() = _word
 
     // The current score
     private val _score = MutableLiveData<Int>()  // internal version
-    val score : LiveData<Int>   // external version
+    val score: LiveData<Int>   // external version
         get() = _score
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
 
-    // DONE (01) Make a properly encapsulated LiveData called eventGameFinish that holds a
-    // boolean
     // Event which triggers the end of the game
     private val _eventGameFinish = MutableLiveData<Boolean>()
     val eventGameFinish: LiveData<Boolean>
@@ -51,6 +71,25 @@ class GameViewModel : ViewModel() {
         resetList()
         nextWord()
         _score.value = 0
+
+        // DONE (04) Copy over the CountDownTimer code and then update currentTime and
+        // eventGameFinish appropriately as the timer ticks and finishes
+        // Creates a timer which triggers the end of the game when it finishes
+        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                // DONE implement what should happen each tick of the timer
+                _currentTime.value = millisUntilFinished / ONE_SECOND
+            }
+
+            override fun onFinish() {
+                // DONE implement what should happen when the timer finishes
+                _currentTime.value = DONE
+                _eventGameFinish.value = true
+            }
+        }
+
+        timer.start()
     }
 
     /**
@@ -89,12 +128,11 @@ class GameViewModel : ViewModel() {
     private fun nextWord() {
         //Select and remove a word from the list
         if (wordList.isEmpty()) {
-            // gameFinished()  // will be fixed later
-            // DONE (03) Set eventGameFinish to true, to signify that the game is over
-            _eventGameFinish.value = true
-        } else {
-            _word.value = wordList.removeAt(0)
+            // DONE (05) Update this logic so that the game doesn't finish;
+            // Instead the list is reset and re-shuffled when you run out of words
+            resetList()
         }
+            _word.value = wordList.removeAt(0)
     }
 
     /** Methods for buttons presses **/
@@ -109,9 +147,13 @@ class GameViewModel : ViewModel() {
         nextWord()
     }
 
-    // DONE (02) Make the function onGameFinishComplete which makes the value of eventGameFinish
-    // false
     fun onGameFinishComplete() {
         _eventGameFinish.value = false  // event has been handled (navigation done)
+    }
+
+    // DONE (06) Cancel the timer in onCleared
+    override fun onCleared() {
+        super.onCleared()
+        timer.cancel()
     }
 }
