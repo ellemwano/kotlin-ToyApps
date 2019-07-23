@@ -18,7 +18,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- DONE (01) Add a GameViewModel variable to the layout -->
     <data>
         <variable
             name="gameViewModel"
@@ -48,10 +47,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
+        <!-- DONE (01) For score_text and word_text use the LiveData from GameViewModel to set the
+        text attribute -->
+
         <TextView
             android:id="@+id/word_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{@string/quote_format(gameViewModel.word)}"
             android:animateLayoutChanges="true"
             android:fontFamily="sans-serif"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -88,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:text="@{@string/score_format(gameViewModel.score)}"
             android:fontFamily="sans-serif"
             android:textColor="@color/grey_text_color"
             android:textSize="14sp"
@@ -96,9 +100,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Score: 2" />
-
-        <!-- DONE (02) Use the viewmodel variable to add onClick attributes for both buttons
-        that call the associated methods in the GameViewModel -->
 
         <Button
             android:id="@+id/skip_button"

@@ -58,19 +58,16 @@ class ScoreFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ScoreViewModel::class.java)
 
-        // DONE (06) Pass the ScoreViewModel into the data binding - then you can remove the
-        // OnClickListener setup for playAgainButton from here
         // Set the viewmodel for databinding
         binding.scoreViewModel = viewModel
+        // DONE (05) Call binding.setLifecycleOwner and remove the score observer
+        // Specify the current activity as the lifecycle owner of the binding. This is used so that
+        // the binding can observe LiveData updates
+        binding.setLifecycleOwner(this)
 
         /**
          * Setting up LiveData observation relationship
          */
-
-        // Add observer for score
-        viewModel.score.observe(this, Observer { newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
 
         // Navigates back to title when button is pressed
         viewModel.eventPlayAgain.observe(this, Observer { playAgain ->
