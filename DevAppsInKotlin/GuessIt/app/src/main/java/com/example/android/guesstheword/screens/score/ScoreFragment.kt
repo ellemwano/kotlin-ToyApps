@@ -54,24 +54,23 @@ class ScoreFragment : Fragment() {
         // Get args using by navArgs property delegate
         val scoreFragmentArgs by navArgs<ScoreFragmentArgs>()
 
-        // DONE (04) Create and construct a ScoreViewModelFactory
         viewModelFactory = ScoreViewModelFactory(scoreFragmentArgs.score)
-        // DONE (05) Create ScoreViewModel by using ViewModelProviders.of as usual, except also
-        // pass in your ScoreViewModelFactory
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(ScoreViewModel::class.java)
+
+        // DONE (06) Pass the ScoreViewModel into the data binding - then you can remove the
+        // OnClickListener setup for playAgainButton from here
+        // Set the viewmodel for databinding
+        binding.scoreViewModel = viewModel
 
         /**
          * Setting up LiveData observation relationship
          */
 
-        // DONE (07) Convert this class to properly observe and use ScoreViewModel
         // Add observer for score
         viewModel.score.observe(this, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
-
-        binding.playAgainButton.setOnClickListener { viewModel.onPlayAgain() }
 
         // Navigates back to title when button is pressed
         viewModel.eventPlayAgain.observe(this, Observer { playAgain ->

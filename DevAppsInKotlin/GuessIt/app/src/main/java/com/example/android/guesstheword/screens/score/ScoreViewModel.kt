@@ -21,11 +21,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-// DONE (01) Create the ScoreViewModel class and have it take in an integer constructor parameter
-// called finalScore
-// DONE (06) Add a LiveData for the score and the play again event, using the best practices for
-// encapsulation and event handling that you've learned
-
+/**
+ * ViewModel for the final screen showing the score
+ */
 class ScoreViewModel(finalScore: Int) : ViewModel() {
 
     private val _score = MutableLiveData<Int>()
@@ -38,7 +36,6 @@ class ScoreViewModel(finalScore: Int) : ViewModel() {
 
     init {
         _score.value = finalScore
-        Log.i("ScoreViewModel", "Final score is $_score")
     }
 
     fun onPlayAgain() {
