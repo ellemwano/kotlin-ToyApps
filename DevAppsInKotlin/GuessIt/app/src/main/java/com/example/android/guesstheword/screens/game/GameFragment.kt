@@ -16,12 +16,16 @@
 
 package com.example.android.guesstheword.screens.game
 
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -65,11 +69,6 @@ class GameFragment : Fragment() {
          * Setting up LiveData observation relationship
          */
 
-        // DONE (04) Now you can delete this observer
-//        viewModel.currentTime.observe(this, Observer { newTime ->
-//            binding.timerText.text = DateUtils.formatElapsedTime(newTime)  // format Long to String
-//        })
-
         // Sets up event listening to navigate the player when the game is finished
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
             if (isFinished) {
@@ -78,7 +77,34 @@ class GameFragment : Fragment() {
             }
         })
 
+        // DONE (09) Create an observer for the buzz event which calls the buzz method with the
+        // correct pattern. Remember to call onBuzzComplete!
+        // Buzzes when triggered with different buzz events
+        viewModel.eventBuzz.observe(this, Observer { buzzType ->
+            if(buzzType != GameViewModel.BuzzType.NO_BUZZ) {
+                buzz(buzzType.pattern)
+                viewModel.onBuzzComplete()
+            }
+        })
+
         return binding.root
+    }
+
+    // DONE (08) Copy over the buzz method here
+    /**
+     * Given a pattern, this method makes sure the device buzzes
+     */
+    private fun buzz(pattern: LongArray) {
+        val buzzer = activity?.getSystemService<Vibrator>()
+
+        buzzer?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                //deprecated in API 26
+                buzzer.vibrate(pattern, -1)
+            }
+        }
     }
 
     /**
