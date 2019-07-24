@@ -22,18 +22,15 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
-// DONE (01) Create annotated interface SleepDatabaseDao.
 /**
  * Defines methods for using the SleepNight class with Room.
  */
 @Dao
 interface SleepDatabaseDao {
 
-    // DONE (02) Add annotated insert() method for inserting a single SleepNight.
     @Insert
     fun insert(night: SleepNight)
 
-    // DONE (03) Add annotated update() method for updating a SleepNight.
     /**
      * When updating a row with a value already set in a column,
      * replaces the old value with the new one.
@@ -43,7 +40,6 @@ interface SleepDatabaseDao {
     @Update
     fun update(night: SleepNight)
 
-    // DONE (04) Add annotated get() method that gets the SleepNight by key.
     /**
      * Selects and returns the row that matches the supplied start time, which is our key.
      *
@@ -52,7 +48,6 @@ interface SleepDatabaseDao {
     @Query("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
     fun get(key: Long): SleepNight
 
-    // DONE (05) Add annotated clear() method and query.
     /**
      * Deletes all values from the table.
      *
@@ -61,7 +56,6 @@ interface SleepDatabaseDao {
     @Query("DELETE FROM daily_sleep_quality_table")
     fun clear()
 
-    // DONE (06) Add annotated getAllNights() method and query.
     /**
      * Selects and returns all rows in the table,
      *
@@ -70,7 +64,6 @@ interface SleepDatabaseDao {
     @Query("SELECT * from daily_sleep_quality_table ORDER BY nightId DESC")
     fun getAllNights(): LiveData<List<SleepNight>>
 
-    // DONE (07) Add annotated getTonight() method and query.
     /**
      * Selects and returns the latest night.
      */
