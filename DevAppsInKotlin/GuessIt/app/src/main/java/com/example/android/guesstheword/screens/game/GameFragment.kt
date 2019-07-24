@@ -56,21 +56,19 @@ class GameFragment : Fragment() {
         // Set the viewmodel for databinding - this allows the bound layout access to all of the
         // data in the VieWModel
         binding.gameViewModel = viewModel
-        // DONE (02) Call binding.setLifecycleOwner and pass in "this" fragment to make the
-        // data binding lifecycle aware
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
+        // binding.setLifecycleOwner(this)
 
-        // DONE (03) Now you can remove the score and word observers - we'll fix
-        // the currentTime observation in the next step
         /**
          * Setting up LiveData observation relationship
          */
 
-        viewModel.currentTime.observe(this, Observer { newTime ->
-            binding.timerText.text = DateUtils.formatElapsedTime(newTime)  // format Long to String
-        })
+        // DONE (04) Now you can delete this observer
+//        viewModel.currentTime.observe(this, Observer { newTime ->
+//            binding.timerText.text = DateUtils.formatElapsedTime(newTime)  // format Long to String
+//        })
 
         // Sets up event listening to navigate the player when the game is finished
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->

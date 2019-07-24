@@ -60,10 +60,10 @@ class ScoreFragment : Fragment() {
 
         // Set the viewmodel for databinding
         binding.scoreViewModel = viewModel
-        // DONE (05) Call binding.setLifecycleOwner and remove the score observer
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
+        // binding.setLifecycleOwner(this)
 
         /**
          * Setting up LiveData observation relationship
