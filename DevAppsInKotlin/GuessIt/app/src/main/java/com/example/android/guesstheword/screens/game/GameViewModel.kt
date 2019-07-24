@@ -24,7 +24,6 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 
-// DONE (03) Copy over the different buzz pattern Long array constants here
 private val CORRECT_BUZZ_PATTERN = longArrayOf(100, 100, 100, 100, 100, 100)
 private val PANIC_BUZZ_PATTERN = longArrayOf(0, 200)
 private val GAME_OVER_BUZZ_PATTERN = longArrayOf(0, 2000)
@@ -35,9 +34,6 @@ private val NO_BUZZ_PATTERN = longArrayOf(0)
  */
 class GameViewModel : ViewModel() {
 
-    // DONE (04) Make an enum called BuzzType - have a different buzz type for CORRECT, GAME_OVER
-    // COUNTDOWN_PANIC and NO_BUZZ. Also add a number of seconds to the companion object for when
-    // count-down buzzing will start
     // These are the three different types of buzzing in the game. Buzz pattern is the number of
     // milliseconds each interval of buzzing and non-buzzing takes.
     enum class BuzzType(val pattern: LongArray) {
@@ -93,22 +89,16 @@ class GameViewModel : ViewModel() {
     val eventGameFinish: LiveData<Boolean>
         get() = _eventGameFinish
 
-    // DONE (05) Create a properly encapsulated LiveData for a buzz event - its type should be
-    // BuzzType
     // Event that triggers the phone to buzz using different patterns, determined by BuzzType
     private val _eventBuzz = MutableLiveData<BuzzType>()
     val eventBuzz: LiveData<BuzzType>
         get() = _eventBuzz
 
     init {
-        //_eventGameFinish.value = false
+//        _eventGameFinish.value = false
         resetList()
         nextWord()
         _score.value = 0
-
-        // DONE (06) Set the value of buzz event to the correct BuzzType when the buzzer should
-        // fire. This should happen when the game is over, when the user gets a correct answer,
-        // and on each tick when countdown buzzing starts
 
         // Creates a timer which triggers the end of the game when it finishes
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
@@ -185,12 +175,12 @@ class GameViewModel : ViewModel() {
         nextWord()
     }
 
+    /** Methods for completed events **/
+
     fun onGameFinishComplete() {
         _eventGameFinish.value = false  // event has been handled (navigation done)
     }
 
-    // DONE (07) Add a function onBuzzComplete for telling the view model when the buzz event has
-    // completed
     fun onBuzzComplete() {
         _eventBuzz.value = BuzzType.NO_BUZZ
     }

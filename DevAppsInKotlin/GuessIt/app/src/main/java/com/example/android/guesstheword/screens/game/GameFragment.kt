@@ -60,15 +60,15 @@ class GameFragment : Fragment() {
         // Set the viewmodel for databinding - this allows the bound layout access to all of the
         // data in the VieWModel
         binding.gameViewModel = viewModel
+
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
         binding.lifecycleOwner = this
-        // binding.setLifecycleOwner(this)
+//        binding.setLifecycleOwner(this)
 
         /**
          * Setting up LiveData observation relationship
          */
-
         // Sets up event listening to navigate the player when the game is finished
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
             if (isFinished) {
@@ -77,8 +77,6 @@ class GameFragment : Fragment() {
             }
         })
 
-        // DONE (09) Create an observer for the buzz event which calls the buzz method with the
-        // correct pattern. Remember to call onBuzzComplete!
         // Buzzes when triggered with different buzz events
         viewModel.eventBuzz.observe(this, Observer { buzzType ->
             if(buzzType != GameViewModel.BuzzType.NO_BUZZ) {
@@ -90,7 +88,6 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
-    // DONE (08) Copy over the buzz method here
     /**
      * Given a pattern, this method makes sure the device buzzes
      */

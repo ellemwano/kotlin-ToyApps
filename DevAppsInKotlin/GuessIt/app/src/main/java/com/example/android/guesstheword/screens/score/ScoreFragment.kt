@@ -60,15 +60,15 @@ class ScoreFragment : Fragment() {
 
         // Set the viewmodel for databinding
         binding.scoreViewModel = viewModel
+
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
         binding.lifecycleOwner = this
-        // binding.setLifecycleOwner(this)
+//        binding.setLifecycleOwner(this)
 
         /**
          * Setting up LiveData observation relationship
          */
-
         // Navigates back to title when button is pressed
         viewModel.eventPlayAgain.observe(this, Observer { playAgain ->
             if (playAgain) {
