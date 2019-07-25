@@ -47,8 +47,6 @@ class SleepTrackerFragment : Fragment() {
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_sleep_tracker, container, false)
 
-        //DONE (01) Update onCreateView() to get an instance of SleepTrackerViewModel
-        //using the factory.
         // Get the application
         // requireNotNull() throws an IllegalArgumentException if the value is null.
         // Otherwise returns the not null value.
@@ -63,11 +61,8 @@ class SleepTrackerFragment : Fragment() {
                 ViewModelProviders.of(this, viewModelFactory)
                         .get(SleepTrackerViewModel::class.java)
 
-        //DONE (02) Update to set this as the lifecycle owner of the binding
         binding.lifecycleOwner = this
 
-        //DONE (04) Update to assign sleepTrackerViewModel binding variable
-        //to the sleepTrackerViewModel.
         // Set the viewmodel for databinding
         // (Assign the sleepTrackerViewModel binding variable to the sleepTrackerViewModel)
         binding.sleepTrackerViewModel = sleepTrackerViewModel
