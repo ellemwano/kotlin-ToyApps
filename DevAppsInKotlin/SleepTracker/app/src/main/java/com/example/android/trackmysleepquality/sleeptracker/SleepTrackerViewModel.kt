@@ -18,6 +18,7 @@ package com.example.android.trackmysleepquality.sleeptracker
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
@@ -32,13 +33,11 @@ class SleepTrackerViewModel(
         val database: SleepDatabaseDao,
         application: Application) : AndroidViewModel(application) {
 
-    //DONE (01) Declare Job() and cancel jobs in onCleared().
     /**
      * viewModelJob allows us to cancel all coroutines started by this ViewModel.
      */
     private var viewModelJob = Job()
 
-    //DONE (02) Define uiScope for coroutines.
     /**
      * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
      *
@@ -51,14 +50,10 @@ class SleepTrackerViewModel(
      */
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    //DONE (03) Create a MutableLiveData variable tonight for one SleepNight.
     private var tonight = MutableLiveData<SleepNight?>()
 
-    //DONE (04) Define a variable, nights. Then getAllNights() from the database
-    //and assign to the nights variable.
     private val nights = database.getAllNights()
 
-    //DONE (12) Transform nights into a nightsString using formatNights().
     /**
      * Converted nights to Spanned for displaying.
      */
@@ -66,10 +61,33 @@ class SleepTrackerViewModel(
         formatNights(nights, application.resources)
     }
 
-    //DONE (05) In an init block, initializeTonight(), and implement it to launch a coroutine
-    //to getTonightFromDatabase().
+    //DONE (01) create encapsulated LiveData navigateToSleepQuality and doneNavigating() function.
+    //Use them in onStopTracking() to trigger navigation.
+    /**
+     * Variable that tells the Fragment to navigate to a specific [SleepQualityFragment]
+     *
+     * This is private because we don't want to expose setting this value to the Fragment.
+     */
+    private val _navigateToSleepQuality = MutableLiveData<SleepNight>()
+
+    /**
+     * If this is non-null, immediately navigate to [SleepQualityFragment] and call [doneNavigating]
+     */
+    val navigateToSleepQuality: LiveData<SleepNight>
+        get() = _navigateToSleepQuality
+
+    /**
+     * Call this immediately after navigating to [SleepQualityFragment]
+     *
+     * It will clear the navigation request, so if the user rotates their phone it won't navigate
+     * twice.
+     */
+    fun doneNavigating() {
+        _navigateToSleepQuality.value = null
+    }
+
     init {
-        initializeTonight()
+        initializeTonight()   // We need tonight from the start
     }
 
     private fun initializeTonight() {
@@ -78,7 +96,6 @@ class SleepTrackerViewModel(
         }
     }
 
-    //DONE (06) Implement getTonightFromDatabase()as a suspend function.
     /**
      *  Handling the case of the stopped app or forgotten recording,
      *  the start and end times will be the same.
@@ -96,8 +113,6 @@ class SleepTrackerViewModel(
         }
     }
 
-    //DONE (07) Implement the click handler for the Start button, onStartTracking(), using
-    //coroutines. Define the suspend function insert(), to insert a new night into the database.
     /**
      * Executes when the START button is clicked.
      */
@@ -118,7 +133,6 @@ class SleepTrackerViewModel(
         }
     }
 
-    //DONE (08) Create onStopTracking() for the Stop button with an update() suspend function.
     /**
      * Executes when the STOP button is clicked.
      */
@@ -133,6 +147,9 @@ class SleepTrackerViewModel(
             // Update the night in the database to add the end time.
             oldNight.endTimeMilli = System.currentTimeMillis()
             update(oldNight)
+
+            // Set state to navigate to the SleepQualityFragment.
+            _navigateToSleepQuality.value = oldNight   // This will never be null
         }
     }
 
@@ -142,7 +159,6 @@ class SleepTrackerViewModel(
         }
     }
 
-    //DONE (09) For the Clear button, created onClear() with a clear() suspend function.
     /**
      * Executes when the CLEAR button is clicked.
      */
