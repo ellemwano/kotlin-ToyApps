@@ -70,7 +70,6 @@ class SleepTrackerFragment : Fragment() {
         // (Assign the sleepTrackerViewModel binding variable to the sleepTrackerViewModel)
         binding.sleepTrackerViewModel = sleepTrackerViewModel
 
-        //DONE (05) Add an observer that shows a Snackbar.
         // Add an Observer on the state variable for showing a Snackbar message
         // when the CLEAR button is pressed.
         sleepTrackerViewModel.showSnackBarEvent.observe(this, Observer {
