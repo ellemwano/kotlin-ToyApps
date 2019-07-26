@@ -65,12 +65,16 @@
              from the ViewModel. The click handler is in the ViewModel as well, and
              you can set it for the Views using this lambda pattern. -->
 
+        <!-- DONE (01) Add the enabled property to each button and give it
+             the value of a state variable. -->
+
         <Button
             android:id="@+id/start_button"
             style="@style/SleepButtons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> sleepTrackerViewModel.onStartTracking()}"
+            android:enabled="@{sleepTrackerViewModel.startButtonVisible}"
             android:layout_marginStart="@dimen/margin"
             android:text="@string/start"
             app:layout_constraintBaseline_toBaselineOf="@id/stop_button"
@@ -84,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> sleepTrackerViewModel.onStopTracking()}"
+            android:enabled="@{sleepTrackerViewModel.stopButtonVisible}"
             android:layout_marginTop="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
             android:text="@string/stop"
@@ -97,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> sleepTrackerViewModel.onClear()}"
+            android:enabled="@{sleepTrackerViewModel.clearButtonVisible}"
             android:layout_marginStart="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
             android:layout_marginBottom="@dimen/margin"

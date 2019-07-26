@@ -61,8 +61,52 @@ class SleepTrackerViewModel(
         formatNights(nights, application.resources)
     }
 
-    //DONE (01) create encapsulated LiveData navigateToSleepQuality and doneNavigating() function.
-    //Use them in onStopTracking() to trigger navigation.
+    //DONE (02)  Create three corresponding state variables. Assign them a Transformations
+    //that tests it against the value of tonight.
+    /**
+     * If tonight has not been set, then the START button should be visible.
+     */
+    val startButtonVisible = Transformations.map(tonight) {
+        null == it  // tonight is null
+    }
+
+    /**
+     * If tonight has been set, then the STOP button should be visible.
+     */
+    val stopButtonVisible = Transformations.map(tonight) {
+        null != it  // tonight is not null
+    }
+
+    /**
+     * If there are any nights in the database, show the CLEAR button.
+     */
+    val clearButtonVisible = Transformations.map(nights) {
+        it?.isNotEmpty()  // records are shown
+    }
+
+    //DONE (03) Verify app build and runs without errors.
+
+    /**
+     * Request a toast by setting this value to true.
+     *
+     * This is private because we don't want to expose setting this value to the Fragment.
+     */
+    //DONE (04) Using the familiar pattern, create encapsulated showSnackBarEvent variable
+    //and doneShowingSnackbar() fuction.
+    private var _showSnackBarEvent = MutableLiveData<Boolean>()
+    val showSnackBarEvent: LiveData<Boolean>
+        get() = _showSnackBarEvent
+
+    /**
+     * Call this immediately after calling `show()` on a toast.
+     *
+     * It will clear the toast request, so if the user rotates their phone it won't show a duplicate
+     * toast.
+     */
+    fun doneShowingSnackBar() {
+        _showSnackBarEvent.value = false
+    }
+
     /**
      * Variable that tells the Fragment to navigate to a specific [SleepQualityFragment]
      *
@@ -159,6 +203,8 @@ class SleepTrackerViewModel(
         }
     }
 
+    //DONE (06) In onClear(), set the value of _showOnSnackbarEvent to true.
+
     /**
      * Executes when the CLEAR button is clicked.
      */
@@ -167,6 +213,8 @@ class SleepTrackerViewModel(
             clear()
             tonight.value = null
         }
+        // Show a snackbar message, because it's friendly.
+        _showSnackBarEvent.value = true
     }
 
     suspend fun clear() {

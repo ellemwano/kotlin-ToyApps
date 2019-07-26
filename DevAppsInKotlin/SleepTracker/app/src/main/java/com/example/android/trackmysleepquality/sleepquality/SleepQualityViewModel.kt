@@ -22,8 +22,6 @@ import androidx.lifecycle.ViewModel
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import kotlinx.coroutines.*
 
-//DONE (03) Using the code in SleepTrackerViewModel for reference, create SleepQualityViewModel
-//with coroutine setup and navigation setup.
 /**
  * ViewModel for SleepQualityFragment.
  *
@@ -72,7 +70,6 @@ class SleepQualityViewModel(
         _navigateToSleepTracker.value = null
     }
 
-    //DONE (04) implement the onSetSleepQuality() click handler using coroutines.
     /**
      * Sets the sleep quality and updates the database.
      *

@@ -52,8 +52,6 @@ class SleepQualityFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        //DONE (06) Using the SleepTrackerFragment code as a reference, get the passed in arguments,
-        //and get the SleepQualityViewModel and add it to data binding.
         val sleepQualityFragmentArgs by navArgs<SleepQualityFragmentArgs>()
 //        val arguments = SleepQualityFragmentArgs.fromBundle(arguments!!)
 
@@ -70,7 +68,7 @@ class SleepQualityFragment : Fragment() {
         // give the binding object a reference to it.
         binding.sleepQualityViewModel = sleepQualityViewModel
 
-        //DONE (07) implement an observer for navigateToSleepTracker.
+        // Add an Observer to the state variable for Navigating when a Quality icon is tapped.
         sleepQualityViewModel.navigateToSleepTracker.observe(this, Observer {
             if (it == true) {   // Observed state is true
                 this.findNavController().navigate(

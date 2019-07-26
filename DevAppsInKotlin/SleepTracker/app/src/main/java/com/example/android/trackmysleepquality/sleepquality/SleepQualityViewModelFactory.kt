@@ -20,8 +20,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 
-//DONE (05) Using the code in SleepTrackerViewModelFactory as a reference,
-//create the SleepQualityViewModelFactory.
 /**
  * This is pretty much boiler plate code for a ViewModel Factory.
  *
