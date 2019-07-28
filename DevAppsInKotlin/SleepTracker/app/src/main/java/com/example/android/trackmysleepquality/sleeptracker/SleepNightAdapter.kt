@@ -16,32 +16,43 @@
 
 package com.example.android.trackmysleepquality.sleeptracker
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.TextItemViewHolder
 import com.example.android.trackmysleepquality.database.SleepNight
 
-// DONE (02) Create SleepNightAdapter class and extend it
-// from RecyclerView.Adapter<TextItemViewHolder>
 
 class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
-    // DONE (03) Create a variable, data, that holds a list of SleepNight.
     var data = listOf<SleepNight>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
-    // DONE (04) Override getItemCount() to return the total number of items in the data set.
+     // Returns the total number of items in the data set held by the adapter
     override fun getItemCount() = data.size
 
-    // DONE (05) Override onBindViewHolder() and have it update the contents of the
-    // ViewHolder to reflect the item at the given position.
+     // Called by RecyclerView to display the data at the specified position.
+     // This method should update the contents of the RecyclerView.ViewHolder.itemView
+     // to reflect the item at the given position.
     override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
         val item = data[position]
         holder.textView.text = item.sleepQuality.toString()
     }
 
-    // DONE (06) Override onCreateViewHolder(). We'll complete this method
-    // in a later exercise
+     // Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type
+     // to represent an item.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        // DONE (01) Inflate the text_item_view layout.
+         val layoutInflater = LayoutInflater.from(parent.context)
+         val view = layoutInflater.inflate(R.layout.text_item_view, parent, false) as TextView
+
+        // DONE (02) Return the inflated view.
+         return TextItemViewHolder(view)
     }
 }
