@@ -151,9 +151,27 @@ class SleepTrackerViewModel(
         }
     }
 
+    private suspend fun insert(night: SleepNight) {
+        withContext(Dispatchers.IO) {
+            database.insert(night)
+        }
+    }
+
+    private suspend fun update(night: SleepNight) {
+        withContext(Dispatchers.IO) {
+            database.update(night)
+        }
+    }
+
+    private suspend fun clear() {
+        withContext(Dispatchers.IO) {
+            database.clear()
+        }
+    }
+
     /**
-     * Executes when the START button is clicked.
-     */
+    * Executes when the START button is clicked.
+    */
     fun onStartTracking() {
         uiScope.launch {
             // Create a new night, which captures the current time,
@@ -162,12 +180,6 @@ class SleepTrackerViewModel(
             insert(newNight)
             tonight.value = getTonightFromDatabase()
 
-        }
-    }
-
-    private suspend fun insert(night: SleepNight) {
-        withContext(Dispatchers.IO) {
-            database.insert(night)
         }
     }
 
@@ -191,12 +203,6 @@ class SleepTrackerViewModel(
         }
     }
 
-    private suspend fun update(night: SleepNight) {
-        withContext(Dispatchers.IO) {
-            database.update(night)
-        }
-    }
-
     /**
      * Executes when the CLEAR button is clicked.
      */
@@ -207,12 +213,6 @@ class SleepTrackerViewModel(
         }
         // Show a snackbar message, because it's friendly.
         _showSnackBarEvent.value = true
-    }
-
-    suspend fun clear() {
-        withContext(Dispatchers.IO) {
-            database.clear()
-        }
     }
 
     /**

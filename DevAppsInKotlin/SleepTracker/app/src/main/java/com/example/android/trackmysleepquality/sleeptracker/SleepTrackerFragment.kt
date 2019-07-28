@@ -55,11 +55,11 @@ class SleepTrackerFragment : Fragment() {
         // Otherwise returns the not null value.
         val application = requireNotNull(this.activity).application
 
-        // Get a database instance
+        // Create an instance of the ViewModel Factory.
         val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
-
-        // Get the viewmodel
         val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
+
+        // Get a reference to the ViewModel associated with this fragment.
         val sleepTrackerViewModel =
                 ViewModelProviders.of(this, viewModelFactory)
                         .get(SleepTrackerViewModel::class.java)

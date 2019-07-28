@@ -43,7 +43,6 @@ abstract class SleepDatabase : RoomDatabase() {
      * a new SleepDatabase.
      */
     companion object {
-
         /**
          * INSTANCE will keep a reference to any database returned via getInstance.
          *
@@ -81,7 +80,6 @@ abstract class SleepDatabase : RoomDatabase() {
                 // Copy the current value of INSTANCE to a local variable so Kotlin can smart cast.
                 // Smart cast is only available to local variables.
                 var instance = INSTANCE
-
                 // Check whether the database already exists,
                 // and if it does not, use Room.databaseBuilder to create it.
                 // If instance is `null` make a new database instance.

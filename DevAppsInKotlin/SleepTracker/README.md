@@ -24,9 +24,8 @@ It also uses and builds on the following techniques from previous lessons:
 
 ## Screenshots
 
-![Screenshot1](screenshots/sleep_quality_tracker_start.png)
-![Screenshot2](screenshots/sleep_quality_tracker_stop.png)
-![Screenshot3](screenshots/sleep_quality_tracker_quality.png)
+<img src="screenshots/sleep_quality_tracker_start.png"  width="400"> <img src="screenshots/sleep_quality_tracker_stop.png"  width="400" hspace="20">
+<img src="screenshots/sleep_quality_tracker_quality.png"  width="400">  
 
 ## Part 2 (RecyclerView) - SleepQualityTracker
 
@@ -34,5 +33,4 @@ It also uses and builds on the following techniques from previous lessons:
 
 ## Screenshots
 
-![Screenshot1](screenshots/sleep_tracker_recycler_home.png)
-![Screenshot2](screenshots/sleep_tracker_recycler_detail.png)
+<img src="screenshots/sleep_tracker_recycler_home.png"  width="400">   <img src="screenshots/sleep_tracker_recycler_detail.png"  width="400" hspace="20">
