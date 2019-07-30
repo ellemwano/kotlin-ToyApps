@@ -37,42 +37,48 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
             notifyDataSetChanged()
         }
 
-     // Returns the total number of items in the data set held by the adapter
-    override fun getItemCount() = data.size
+    // Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type
+    // to represent an item.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
+    }
 
      // Called by RecyclerView to display the data at the specified position.
      // This method should update the contents of the RecyclerView.ViewHolder.itemView
      // to reflect the item at the given position.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
          val item = data[position]
-
-         // DONE (04) Move the res variable to ViewHolder.bind().
-
-         // DONE (01) Refactor binding logic into a separate function called bind().
-
-         // DONE (02) Convert the bind() function's holder parameter to a receiver.
-
-         // DONE (03) Move bind() into the ViewHolder class.
-
          holder.bind(item)
      }
 
-    // Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type
-     // to represent an item.
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    // Returns the total number of items in the data set held by the adapter
+    override fun getItemCount() = data.size
 
-         // Create a layoutInflater based on the parent view and inflate the view
-         val layoutInflater = LayoutInflater.from(parent.context)
-         val view = layoutInflater.inflate(R.layout.list_item_sleep_night, parent, false)
 
-         // Return the inflated view
-         return ViewHolder(view)
-    }
+    // Private constructor - Can only be called inside the class (won't be called outside with from())
+    class ViewHolder private constructor(itemView: View) :  RecyclerView.ViewHolder(itemView) {
+        // DONE (01) Refactor the logic for creating the ViewHolder into a function called from().
 
-    class ViewHolder(itemView: View) :  RecyclerView.ViewHolder(itemView) {
+        // DONE (02) Make the from() function into a companion object.
+
+        // DONE (03) Move the companion object into the ViewHolder class, and have it
+        // return a ViewHolder.
+
         val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
         val quality: TextView = itemView.findViewById(R.id.quality_string)
         val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+
+        // We use a Companion object as this needs to be called on the VH class, not an instance
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                // Create a layoutInflater based on the parent view and inflate the view
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater.inflate(R.layout.list_item_sleep_night, parent, false)
+
+                // Return the inflated view
+                return ViewHolder(view)
+            }
+        }
 
         fun bind(item: SleepNight) {
             val res = itemView.context.resources
