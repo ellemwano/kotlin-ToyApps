@@ -6,12 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- DONE (01) Add an ImageView and set its id to quality_image. -->
-
-    <!-- DONE (02) Add a TextView to the right of quality_image and set its id to sleep_length. -->
-
-    <!-- DONE (03) Add a TextView below sleep_length and set its id to quality_string. -->
-
     <ImageView
         android:id="@+id/quality_image"
         android:layout_width="@dimen/icon_size"
@@ -31,7 +25,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quality_image"
         app:layout_constraintTop_toTopOf="@+id/quality_image"
@@ -44,7 +37,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/quality_image"
         app:layout_constraintTop_toBottomOf="@+id/sleep_length"
