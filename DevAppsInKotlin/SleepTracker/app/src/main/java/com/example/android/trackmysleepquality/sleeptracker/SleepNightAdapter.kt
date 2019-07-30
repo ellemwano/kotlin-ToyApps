@@ -22,6 +22,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.convertDurationToFormatted
@@ -29,13 +31,12 @@ import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
 
 
-class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
+class SleepNightAdapter :
+        ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
 
-    var data = listOf<SleepNight>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    // DONE (03) Update SleepNightAdapter class to extend ListAdapter.
+
+    // DONE (04) Delete the data field and getItemCount() function.
 
     // Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type
     // to represent an item.
@@ -43,27 +44,17 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
         return ViewHolder.from(parent)
     }
 
-     // Called by RecyclerView to display the data at the specified position.
-     // This method should update the contents of the RecyclerView.ViewHolder.itemView
-     // to reflect the item at the given position.
+    // Called by RecyclerView to display the data at the specified position.
+    // This method should update the contents of the RecyclerView.ViewHolder.itemView
+    // to reflect the item at the given position.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-         val item = data[position]
-         holder.bind(item)
-     }
+        // DONE (05) Replace data[position] with getItem().
+        val item = getItem(position)
+        holder.bind(item)
+    }
 
-    // Returns the total number of items in the data set held by the adapter
-    override fun getItemCount() = data.size
-
-
-    // Private constructor - Can only be called inside the class (won't be called outside with from())
-    class ViewHolder private constructor(itemView: View) :  RecyclerView.ViewHolder(itemView) {
-        // DONE (01) Refactor the logic for creating the ViewHolder into a function called from().
-
-        // DONE (02) Make the from() function into a companion object.
-
-        // DONE (03) Move the companion object into the ViewHolder class, and have it
-        // return a ViewHolder.
-
+       // Private constructor - Can only be called inside the class (won't be called outside with from())
+    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
         val quality: TextView = itemView.findViewById(R.id.quality_string)
         val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
@@ -93,6 +84,27 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
                 5 -> R.drawable.ic_sleep_5
                 else -> R.drawable.ic_sleep_active
             })
+        }
+    }
+
+    // DONE (01) Create a new class called SleepNightDiffCallback that extends
+    // DiffUtil.ItemCallback<SleepNight>.
+    /**
+     * Callback for calculating the diff between two non-null items in a list.
+     *
+     * Used by ListAdapter to calculate the minumum number of changes between and old list and a new
+     * list that's been passed to `submitList`.
+     */
+    class SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
+
+        // DONE (02) In SleepNightDiffCallback, override areItemsTheSame() and areContentsTheSame().
+
+        override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+            return oldItem.nightId == newItem.nightId
+        }
+
+        override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+            return oldItem == newItem   // Ok as SleepNight is a data class (equals() is handled)
         }
     }
 }
